@@ -36,7 +36,7 @@ public class mainGUI extends Application {
             lineChart.getData().add(series);
         }
 
-        Scene scene  = new Scene(lineChart,800,600);
+        Scene scene  = new Scene(lineChart,1000,600);
 
         stage.setScene(scene);
         stage.show();

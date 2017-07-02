@@ -18,9 +18,7 @@ public class Main {
 
         int a = pop.getA(); int b = pop.getB(); int c = pop.getC();
 
-        for(int i = 0; i < iterazioni; i++){  //ciclare in base agli accoppiamenti
-            //pop.getMaschi().forEach(m -> m.setEta(1) );
-            //pop.getFemmine().forEach(f -> f.setEta(1) );
+        for(int i = 0; i < iterazioni; i++){
 
             for(int j = 0; j < pop.getMaschi().size(); j++)
                 pop.getMaschi().get(j).setEta(1);
