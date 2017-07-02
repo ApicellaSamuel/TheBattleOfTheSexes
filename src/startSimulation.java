@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
  * Created by sam on 02/07/17.
  *
  */
-class funStart {
+class startSimulation {
     ArrayList<ArrayList<Integer>> start() throws InterruptedException, NoSuchIndividuoException {
 
         Popolazione pop = new Popolazione(1000,1000,1000,1000, 15, 20, 3, 42, 7);

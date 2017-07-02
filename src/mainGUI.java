@@ -45,7 +45,7 @@ public class mainGUI extends Application {
 
 
     public static void main(String[] args) throws NoSuchIndividuoException, InterruptedException {
-        funStart fun = new funStart();
+        startSimulation fun = new startSimulation();
         data = fun.start();
         launch(args);
     }
