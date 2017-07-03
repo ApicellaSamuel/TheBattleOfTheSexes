@@ -2,15 +2,11 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by sam on 02/07/17.
- *
- */
 class startSimulation {
     ArrayList<ArrayList<Integer>> start() throws InterruptedException, NoSuchIndividuoException {
 
-        Popolazione pop = new Popolazione(1000,1000,1000,1000, 15, 20, 3, 42, 7);
-        int iterazioni = 50;
+        Popolazione popolazione = new Popolazione(1000,1000,1000,1000, 15, 20, 3, 20, 7);
+        int iterazioni = 30;
 
         ArrayList<ArrayList<Integer>> data = new ArrayList<>();
         ArrayList<Integer> nMor = new ArrayList<>(), nPru = new ArrayList<>(), nAvv = new ArrayList<>(), nSpr = new ArrayList<>();
@@ -20,31 +16,29 @@ class startSimulation {
 
         boolean flag = true;
 
-        int a = pop.getA(); int b = pop.getB(); int c = pop.getC();
+        //int a = popolazione.getA(); int b = popolazione.getB(); int c = popolazione.getC();
 
-        for(int i = 0; i < iterazioni; i++){  //ciclare in base agli accoppiamenti
-            //pop.getMaschi().forEach(m -> m.setEta(1) );
-            //pop.getFemmine().forEach(f -> f.setEta(1) );
+        for(int i = 0; i < iterazioni; i++){
 
-            for(int j = 0; j < pop.getMaschi().size(); j++)
-                pop.getMaschi().get(j).setEta(1);
+            for(int j = 0; j < popolazione.getMaschi().size(); j++)
+                popolazione.getMaschi().get(j).setEta(1);
 
 
-            for(int k = 0; k < pop.getFemmine().size(); k++)
-                pop.getFemmine().get(k).setEta(1);
+            for(int k = 0; k < popolazione.getFemmine().size(); k++)
+                popolazione.getFemmine().get(k).setEta(1);
 
 
-            pop.invecchiamento();
+            popolazione.invecchiamento();
             ExecutorService executorService = Executors.newCachedThreadPool();
             long startTime = System.currentTimeMillis();
 
             while (flag){
                 try{
-                    maschio = pop.estraiMaschio();
+                    maschio = popolazione.estraiMaschio();
                 }
                 catch (NoSuchIndividuoException e){
                     System.out.println("Sono finiti gli individui di sesso: "+e.sex + "\n");
-                    pop.info();
+                    popolazione.info();
                     //return;
                 }
                 catch (Exception e){
@@ -52,24 +46,22 @@ class startSimulation {
                     //return;
                 }
 
-
-                if(maschio.getCompagna() != null) {
-                    femmina = maschio.getCompagna();
-                    pop.removeIndividuo(femmina);
-
+                if(maschio.getPartner() != null) {
+                    femmina = maschio.getPartner();
+                    popolazione.removeIndividuo(femmina);
                 }
                 else{
                     try {
-                        femmina = pop.estraifemmina();
-                        if(femmina.getCompagno()!=null && femmina.getCompagno() != maschio){
-                            pop.addIndividuo(maschio);
-                            pop.addIndividuo(femmina);
+                        femmina = popolazione.estraifemmina();
+                        if(femmina.getPartner()!=null && femmina.getPartner() != maschio){
+                            popolazione.addIndividuo(maschio);
+                            popolazione.addIndividuo(femmina);
                             continue;
                         }
                     }
                     catch (NoSuchIndividuoException e){
                         System.out.println("Sono finiti gli individui di sesso: " + e.sex + "\n");
-                        pop.info();
+                        popolazione.info();
                         //return;
                     }
                     catch (Exception e){
@@ -78,17 +70,20 @@ class startSimulation {
                     }
                 }
 
-                executorService.submit(new Accoppiamento(maschio,femmina,pop));
+                executorService.submit(new Accoppiamento(maschio,femmina,popolazione));
                 long estimatedTime = System.currentTimeMillis() - startTime;
                 if(estimatedTime>3000) flag = false;
-                //pop.info();
             }
-
-            //pop.invecchiamento();
 
             executorService.shutdownNow();
 
-
+            System.out.println("Fine della generazione. Sono rimasti:");
+            popolazione.info();
+            nMor.add(popolazione.getNumberMorigerati());
+            nAvv.add(popolazione.getNumberAvventurieri());
+            nPru.add(popolazione.getNumberPrudenti());
+            nSpr.add(popolazione.getNumberSpregiudicate());
+            /*
             double ratioM_Male = ((double)pop.getNumberMorigerati()/pop.getMaschi().size());
             double ratioP_Female = ((double) pop.getNumberPrudenti()/pop.getFemmine().size());
 
@@ -99,17 +94,12 @@ class startSimulation {
             double Va_S = ratioM_Male*(a-(b/2.0))+(1-ratioM_Male)*(a-(b));
 
 
-            System.out.println("Fine della generazione. Sono rimasti:");
-            pop.info();
-            nMor.add(pop.getNumberMorigerati());
-            nAvv.add(pop.getNumberAvventurieri());
-            nPru.add(pop.getNumberPrudenti());
-            nSpr.add(pop.getNumberSpregiudicate());
+
             System.out.println("Valori attesi:");
             System.out.println("VA_m: "+Va_M);
             System.out.println("VA_a: "+Va_A);
             System.out.println("VA_p: "+Va_P);
-            System.out.println("VA_s: "+Va_S);
+            System.out.println("VA_s: "+Va_S);*/
             System.out.println();
 
             flag = true;

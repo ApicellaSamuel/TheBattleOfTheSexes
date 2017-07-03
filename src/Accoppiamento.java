@@ -1,9 +1,5 @@
 import java.util.*;
 
-/**
- * Created by Federico on 21/06/2017.
- *
- */
 public class Accoppiamento extends Thread {
 
     private volatile Maschio maschio;
@@ -95,32 +91,32 @@ public class Accoppiamento extends Thread {
 
         if(Va_M > Va_A){
             int età = maschio.getEtà();
-            Femmina compagna = maschio.getCompagna();
+            Femmina compagna = maschio.getPartner();
             maschio = new Morigerato();
             maschio.setEta(età);
-            maschio.setCompagna(compagna);
+            maschio.setPartner(compagna);
         }else{
             int età = maschio.getEtà();
             maschio = new Avventuriero();
             maschio.setEta(età);
-            if(maschio.getCompagna() != null)
-                maschio.getCompagna().setCompagno(null);
+            if(maschio.getPartner() != null)
+                maschio.getPartner().setPartner(null);
 
-            maschio.setCompagna(null);
+            maschio.setPartner(null);
         }
 
         if(Va_P > Va_S){
             int età = femmina.getEtà();
-            Maschio compagno = femmina.getCompagno();
+            Maschio compagno = femmina.getPartner();
             femmina = new Prudente();
             femmina.setEta(età);
-            femmina.setCompagno(compagno);
+            femmina.setPartner(compagno);
         }else{
             int età = femmina.getEtà();
-            Maschio compagno = femmina.getCompagno();
+            Maschio compagno = femmina.getPartner();
             femmina = new Spregiudicata();
             femmina.setEta(età);
-            femmina.setCompagno(compagno);
+            femmina.setPartner(compagno);
         }
 
         String m, f;
@@ -141,8 +137,8 @@ public class Accoppiamento extends Thread {
                         else popolazione.addIndividuo(new Prudente());
 
 
-                maschio.setCompagna(femmina);
-                femmina.setCompagno(maschio);
+                maschio.setPartner(femmina);
+                femmina.setPartner(maschio);
 
                 popolazione.addIndividuo(maschio);
                 popolazione.addIndividuo(femmina);
@@ -157,8 +153,8 @@ public class Accoppiamento extends Thread {
                             popolazione.addIndividuo(new Morigerato());
                         else popolazione.addIndividuo(new Spregiudicata());
 
-                maschio.setCompagna(femmina);
-                femmina.setCompagno(maschio);
+                maschio.setPartner(femmina);
+                femmina.setPartner(maschio);
 
                 popolazione.addIndividuo(maschio);
                 popolazione.addIndividuo(femmina);
@@ -166,10 +162,8 @@ public class Accoppiamento extends Thread {
             }
 
             case "AvventurieroPrudente": {
-
                 popolazione.addIndividuo(maschio);
                 popolazione.addIndividuo(femmina);
-
                 break;
             }
 

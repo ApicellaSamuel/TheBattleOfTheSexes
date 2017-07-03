@@ -4,7 +4,7 @@
 public class Avventuriero extends Maschio{
 
     @Override
-    public synchronized Femmina getCompagna(){return null;}
+    public synchronized Femmina getPartner(){return null;}
 
     @Override
     public String chisono(){return "Avventuriero";}

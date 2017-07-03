@@ -1,15 +1,12 @@
-/**
- * Created by Federico on 22/06/2017.
- */
-public abstract class Femmina extends Individuo{
+abstract class Femmina extends Individuo{
 
-    private volatile Maschio compagno = null;
+    private volatile Maschio partner = null;
 
-    public synchronized Maschio getCompagno() {
-        return compagno;
+    synchronized Maschio getPartner(){
+        return partner;
     }
 
-    public synchronized void setCompagno(Maschio compagno) {
-        this.compagno = compagno;
+    synchronized void setPartner(Maschio partner) {
+        this.partner = partner;
     }
 }

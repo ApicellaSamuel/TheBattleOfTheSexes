@@ -1,7 +1,3 @@
-/**
- * Created by Federico on 21/06/2017.
- *
- */
 public abstract class Individuo {
 
     private volatile int età = 0;

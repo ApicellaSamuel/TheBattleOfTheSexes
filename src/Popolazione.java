@@ -1,24 +1,18 @@
 import java.util.*;
 
-/**
- * Created by Federico on 21/06/2017.
- *
- */
 class Popolazione {
     private int a,b,c;
-    private ArrayList<Maschio> maschi;
-    private ArrayList<Femmina> femmine;
+    private ArrayList<Maschio> maschi = new ArrayList<>();
+    private ArrayList<Femmina> femmine = new ArrayList<>();
     volatile private int etaMorte;
     volatile private int maxFigli;
 
-    Popolazione(int morigerati, int avventurieri, int prudenti, int spregiudicate, int a, int b, int c, int etaMorte, int mF) {
+    Popolazione(int morigerati, int avventurieri, int prudenti, int spregiudicate, int a, int b, int c, int etaMorte, int maxNumeroFigli) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.etaMorte = etaMorte;
-        this.maxFigli = mF;
-        this.maschi = new ArrayList<>();
-        this.femmine = new ArrayList<>();
+        this.maxFigli = maxNumeroFigli;
 
         for(int i = 0; i < morigerati; i++)
             maschi.add(new Morigerato());
@@ -31,7 +25,6 @@ class Popolazione {
 
         for(int i = 0; i < spregiudicate; i++)
             femmine.add(new Spregiudicata());
-
     }
 
     synchronized int getNumberMorigerati() {
@@ -117,7 +110,6 @@ class Popolazione {
 
 
     synchronized Maschio estraiMaschio() throws NoSuchIndividuoException{
-
         if (this.getMaschi().size() == 0) throw new NoSuchIndividuoException("Maschio");
 
         Random random = new Random();
@@ -125,7 +117,6 @@ class Popolazione {
     }
 
     synchronized Femmina estraifemmina() throws NoSuchIndividuoException {
-
         if (this.getFemmine().size() == 0) throw new NoSuchIndividuoException("Femmina");
 
         Random random = new Random();
@@ -142,14 +133,13 @@ class Popolazione {
 
         for (int i = 0; i < this.getFemmine().size(); i++){
 
-            int gianni=random.nextInt(this.getEtaMorte()/4);//muore nell'intorno di un quarto[60/100]
+            int epsilon = random.nextInt(this.getEtaMorte()/4);//muore nell'intorno di un quarto[60/100]
 
-            int retto=(random.nextBoolean())?this.getEtaMorte()+gianni:this.getEtaMorte()-gianni;
+            int soglia = (random.nextBoolean())?this.getEtaMorte()+epsilon:this.getEtaMorte()-epsilon;
 
-            if (this.getFemmine().get(i).getEtà() >= retto){
-
-                if(this.getFemmine().get(i).getCompagno()!=null)
-                    this.getFemmine().get(i).getCompagno().setCompagna(null);
+            if (this.getFemmine().get(i).getEtà() >= soglia){
+                if(this.getFemmine().get(i).getPartner() != null)
+                    this.getFemmine().get(i).getPartner().setPartner(null);
 
                 this.removeIndividuo(this.getFemmine().get(i));
                 i--;
@@ -163,8 +153,8 @@ class Popolazione {
             int soglia = (random.nextBoolean())?this.getEtaMorte()+epsilon:this.getEtaMorte()-epsilon;
 
             if(this.getMaschi().get(i).getEtà() >= soglia){
-                if(this.getMaschi().get(i).getCompagna()!= null)
-                    this.getMaschi().get(i).getCompagna().setCompagno(null);
+                if(this.getMaschi().get(i).getPartner() != null)
+                    this.getMaschi().get(i).getPartner().setPartner(null);
 
                 this.removeIndividuo(this.getMaschi().get(i));
                 i--;
